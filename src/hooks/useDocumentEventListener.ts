@@ -1,4 +1,5 @@
-import { useEffect } from 'preact/hooks';
+/** @jsx h */
+import { useEffect } from "../deps.ts";
 
 export function useDocumentEventListener<K extends keyof DocumentEventMap>(
   type: K,

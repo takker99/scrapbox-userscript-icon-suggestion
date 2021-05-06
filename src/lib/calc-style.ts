@@ -1,19 +1,24 @@
-import { JSXInternal } from 'preact/src/jsx';
-import { CursorPosition } from '../types';
+import { JSXInternal } from "../deps.ts";
+import { CursorPosition } from "../types.ts";
 
 /** .popup-menu のスタイルを計算する */
-export function calcPopupMenuStyle(cursorPosition: CursorPosition): JSXInternal.CSSProperties {
+export function calcPopupMenuStyle(
+  cursorPosition: CursorPosition,
+): JSXInternal.CSSProperties {
   return { top: cursorPosition.styleTop };
 }
 
 /** .triangle のスタイルを計算する */
-export function calcTriangleStyle(cursorPosition: CursorPosition, isEmpty: boolean): JSXInternal.CSSProperties {
+export function calcTriangleStyle(
+  cursorPosition: CursorPosition,
+  isEmpty: boolean,
+): JSXInternal.CSSProperties {
   return {
     left: cursorPosition.styleLeft,
     ...(isEmpty
       ? {
-          borderTopColor: '#555',
-        }
+        borderTopColor: "#555",
+      }
       : {}),
   };
 }
@@ -33,26 +38,31 @@ export function calcButtonContainerStyle(
 
   return {
     left: cursorPosition.styleLeft,
-    transform: `translateX(-${Math.max(minTranslateX, Math.min(translateX, maxTranslateX))}%)`,
+    transform: `translateX(-${
+      Math.max(minTranslateX, Math.min(translateX, maxTranslateX))
+    }%)`,
     ...(isEmpty
       ? {
-          color: '#eee',
-          fontSize: '11px',
-          display: 'inline-block',
-          padding: '0 5px',
-          cursor: 'not-allowed',
-          backgroundColor: '#555',
-        }
+        color: "#eee",
+        fontSize: "11px",
+        display: "inline-block",
+        padding: "0 5px",
+        cursor: "not-allowed",
+        backgroundColor: "#555",
+      }
       : {}),
   };
 }
 
 /** <QueryInput> のスタイルを計算する */
-export function calcQueryInputStyle(editorWidth: number, cursorPosition: CursorPosition): JSXInternal.CSSProperties {
+export function calcQueryInputStyle(
+  editorWidth: number,
+  cursorPosition: CursorPosition,
+): JSXInternal.CSSProperties {
   const translateX = (cursorPosition.styleLeft / editorWidth) * 100;
 
   return {
-    position: 'absolute',
+    position: "absolute",
     top: cursorPosition.styleTop,
     left: cursorPosition.styleLeft,
     transform: `translateX(-${translateX}%)`,

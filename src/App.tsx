@@ -1,12 +1,17 @@
-import { FunctionComponent } from 'preact';
-import { useCallback, useState } from 'preact/hooks';
-import { SuggestionBox, Item } from './components/SuggestionBox';
-import { useDocumentEventListener } from './hooks/useDocumentEventListener';
-import { uniqBy } from './lib/collection';
-import { calcCursorPosition, insertText, scanIconsFromEditor } from './lib/scrapbox';
-import { CursorPosition, Icon } from './types';
+/** @jsx h */
+import { FunctionComponent } from "./deps.ts";
+import { useCallback, useState } from "./deps.ts";
+import { Item, SuggestionBox } from "./components/SuggestionBox.tsx";
+import { useDocumentEventListener } from "./hooks/useDocumentEventListener.ts";
+import { uniqBy } from "./lib/collection.ts";
+import {
+  calcCursorPosition,
+  insertText,
+  scanIconsFromEditor,
+} from "./lib/scrapbox.ts";
+import { CursorPosition, Icon } from "./types.ts";
 
-const cursor = document.querySelector<HTMLElement>('.cursor')!;
+const cursor = document.querySelector<HTMLElement>(".cursor")!;
 
 function generateItems(icons: Icon[]) {
   return uniqBy(icons, (icon) => icon.pagePath).map((icon) => ({
@@ -18,7 +23,7 @@ function generateItems(icons: Icon[]) {
           style="width: 1.3em; height: 1.3em; object-fit: contain;"
           src={icon.imgSrc}
         />
-        {' ' + icon.pagePath}
+        {" " + icon.pagePath}
       </span>
     ),
     searchableText: icon.pagePath,
@@ -33,9 +38,14 @@ type AppProps = {
   textInput: HTMLTextAreaElement;
 };
 
-export const App: FunctionComponent<AppProps> = ({ isSuggestionOpenKeyDown, presetIcons, editor, textInput }) => {
+export const App: FunctionComponent<AppProps> = (
+  { isSuggestionOpenKeyDown, presetIcons, editor, textInput },
+) => {
   const [open, setOpen] = useState(false);
-  const [cursorPosition, setCursorPosition] = useState<CursorPosition>({ styleTop: 0, styleLeft: 0 });
+  const [cursorPosition, setCursorPosition] = useState<CursorPosition>({
+    styleTop: 0,
+    styleLeft: 0,
+  });
   const [items, setItems] = useState<Item<Icon>[]>([]);
   const [presetAppended, setPresetAppended] = useState(false);
 
@@ -83,9 +93,17 @@ export const App: FunctionComponent<AppProps> = ({ isSuggestionOpenKeyDown, pres
         setPresetAppended(false);
       }
     },
-    [editor, isSuggestionOpenKeyDown, items, open, presetAppended, presetIcons, textInput],
+    [
+      editor,
+      isSuggestionOpenKeyDown,
+      items,
+      open,
+      presetAppended,
+      presetIcons,
+      textInput,
+    ],
   );
-  useDocumentEventListener('keydown', handleKeydown, { capture: true });
+  useDocumentEventListener("keydown", handleKeydown, { capture: true });
 
   return (
     <SuggestionBox

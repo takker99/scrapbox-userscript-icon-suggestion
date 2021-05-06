@@ -1,14 +1,27 @@
-import { CursorPosition, Icon } from '../types';
-import { uniqBy } from './collection';
-import { iconLinkElementToIcon } from './icon';
+import { CursorPosition, Icon } from "../types.ts";
+import { uniqBy } from "./collection.ts";
+import { iconLinkElementToIcon } from "./icon.ts";
 
-export function scanUniqueIconsFromEditor(projectName: string, editor: HTMLElement): Icon[] {
-  return uniqBy(scanIconsFromEditor(projectName, editor), (icon) => icon.pagePath);
+export function scanUniqueIconsFromEditor(
+  projectName: string,
+  editor: HTMLElement,
+): Icon[] {
+  return uniqBy(
+    scanIconsFromEditor(projectName, editor),
+    (icon) => icon.pagePath,
+  );
 }
 
-export function scanIconsFromEditor(projectName: string, editor: HTMLElement): Icon[] {
-  const iconLinkElements = Array.from(editor.querySelectorAll<HTMLAnchorElement>('a.link.icon'));
-  return iconLinkElements.map((iconLinkElement) => iconLinkElementToIcon(projectName, iconLinkElement));
+export function scanIconsFromEditor(
+  projectName: string,
+  editor: HTMLElement,
+): Icon[] {
+  const iconLinkElements = Array.from(
+    editor.querySelectorAll<HTMLAnchorElement>("a.link.icon"),
+  );
+  return iconLinkElements.map((iconLinkElement) =>
+    iconLinkElementToIcon(projectName, iconLinkElement)
+  );
 }
 
 export function calcCursorPosition(cursor: HTMLElement): CursorPosition {
@@ -25,7 +38,7 @@ export function calcCursorPosition(cursor: HTMLElement): CursorPosition {
 export function insertText(textInput: HTMLTextAreaElement, text: string) {
   textInput.focus();
   textInput.value = text;
-  const uiEvent = document.createEvent('UIEvent');
-  uiEvent.initEvent('input', true, false);
+  const uiEvent = document.createEvent("UIEvent");
+  uiEvent.initEvent("input", true, false);
   textInput.dispatchEvent(uiEvent);
 }

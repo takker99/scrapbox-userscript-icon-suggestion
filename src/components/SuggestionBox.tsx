@@ -1,10 +1,15 @@
-import { ComponentChild } from 'preact';
-import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
-import { CursorPosition } from '../types';
-import { PopupMenu } from './PopupMenu';
-import { QueryInput } from './SuggestionBox/QueryInput';
+/** @jsx h */
+import { ComponentChild } from "../deps.ts";
+import { useCallback, useEffect, useMemo, useState } from "../deps.ts";
+import { CursorPosition } from "../types.ts";
+import { PopupMenu } from "./PopupMenu.tsx";
+import { QueryInput } from "./SuggestionBox/QueryInput.tsx";
 
-export type Item<T> = { element: ComponentChild; searchableText: string; value: T };
+export type Item<T> = {
+  element: ComponentChild;
+  searchableText: string;
+  value: T;
+};
 
 function useMatchedItems<T>(query: string, items: Item<T>[]): Item<T>[] {
   const matchedItems = useMemo(() => {
@@ -35,12 +40,15 @@ export function SuggestionBox<T>({
   onSelectNonexistent,
   onClose,
 }: SuggestionBoxProps<T>) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const matchedItems = useMatchedItems(query, items);
-  const matchedItemsForPopupMenu = useMemo(() => matchedItems.map((item) => item.element), [matchedItems]);
+  const matchedItemsForPopupMenu = useMemo(
+    () => matchedItems.map((item) => item.element),
+    [matchedItems],
+  );
 
   useEffect(() => {
-    if (open === false) setQuery('');
+    if (open === false) setQuery("");
   }, [open]);
 
   const handleSelect = useCallback(
@@ -68,7 +76,12 @@ export function SuggestionBox<T>({
         onClose={handleClose}
       />
       {open && (
-        <QueryInput defaultQuery={query} cursorPosition={cursorPosition} onInput={setQuery} onBlur={handleClose} />
+        <QueryInput
+          defaultQuery={query}
+          cursorPosition={cursorPosition}
+          onInput={setQuery}
+          onBlur={handleClose}
+        />
       )}
     </div>
   );

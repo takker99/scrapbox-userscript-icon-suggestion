@@ -1,10 +1,11 @@
-import { FunctionComponent, JSX } from 'preact';
-import { useCallback, useEffect, useRef } from 'preact/hooks';
-import useResizeObserver from 'use-resize-observer';
-import { calcQueryInputStyle } from '../../lib/calc-style';
-import { CursorPosition } from '../../types';
+/** @jsx h */
+import { FunctionComponent, JSX } from "../../deps.ts";
+import { useCallback, useEffect, useRef } from "../../deps.ts";
+import useResizeObserver from "../../hooks/useResizeObserver.tsx";
+import { calcQueryInputStyle } from "../../lib/calc-style.ts";
+import { CursorPosition } from "../../types.ts";
 
-const editor = document.querySelector<HTMLElement>('.editor')!;
+const editor = document.querySelector<HTMLElement>(".editor")!;
 
 export type QueryInputProps = {
   defaultQuery?: string;
@@ -13,7 +14,9 @@ export type QueryInputProps = {
   onBlur?: () => void;
 };
 
-export const QueryInput: FunctionComponent<QueryInputProps> = ({ defaultQuery, cursorPosition, onInput, onBlur }) => {
+export const QueryInput: FunctionComponent<QueryInputProps> = (
+  { defaultQuery, cursorPosition, onInput, onBlur },
+) => {
   const ref = useRef<HTMLInputElement>();
   const { width: editorWidth = 0 } = useResizeObserver({ ref: editor });
   const queryInputStyle = calcQueryInputStyle(editorWidth, cursorPosition);
